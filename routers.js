@@ -1,0 +1,33 @@
+const express = require('express');
+const multer = require('multer');
+const router = express.Router();
+const sign = require('./controllers/sign');
+const verify = require('./controllers/verify');
+const setting = require('./controllers/setting');
+const public = require('./controllers/public');
+const topic = require('./controllers/topic');
+const detail = require('./controllers/detail');
+const comment = require('./controllers/comment');
+const page = require('./controllers/page');
+const forget = require('./controllers/forget');
+const user = require('./controllers/user');
+
+router.post('/signup', sign.signup);
+router.post('/signin', sign.signin);
+router.post('/existuser', sign.existuser);
+router.post('/verify', verify);
+router.post('/public', public);
+router.post('/comment', comment.comment);
+router.post('/reply/:id', comment.reply);
+router.post('/savesetting', setting.savesetting);
+router.post('/changeimage', multer().array('image'), setting.changeimage);
+router.post('/changepassword', setting.changepassword);
+router.post('/getemail', forget.getemail);
+router.post('/forget', forget.forget);
+router.get('/user', setting.user);
+router.get('/', topic);
+router.get('/page', page.pageCount);
+router.get('/topic/:id', detail);
+router.get('/user/:id', user);
+
+module.exports = router;
