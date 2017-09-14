@@ -8,6 +8,7 @@ import Public from '@/components/public'
 import Index from '@/components/index'
 import Detail from '@/components/detail'
 import User from '@/components/user'
+import NotFoundComponent from '@/components/NotFoundComponent'
 
 Vue.use(Router)
 
@@ -53,6 +54,10 @@ export default new Router({
 		path: '/user/:id',
 		name: 'User',
 		component: User
+	},
+	{
+		path: '*',
+		component: NotFoundComponent
 	}
 	]
 })
