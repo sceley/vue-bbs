@@ -5,9 +5,11 @@
   "author": "覃永利 <1538306377@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js",
-    "start": "node build/dev-server.js",
-    "build": "node build/build.js"
+    "dev": "node server/build/dev-server.js",
+    "start": "node server/build/dev-server.js",
+    "build": "node server/build/build.js",
+    "server": "node server/app.js"
+
   },
   "dependencies": {
     "vue": "^2.3.3",

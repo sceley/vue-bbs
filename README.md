@@ -1,21 +1,43 @@
-# club
+# Club
 
-> this is a club that I build
+## About
 
-## Build Setup
+基于Vue&&Node.js&&Mongodb构建的一个个人论坛，旨在于锻炼自己，提交自己的技术修养
 
-``` bash
-# install dependencies
-npm install
+## 用到的技术栈
 
-# serve with hot reload at localhost:8080
-npm run dev
+- Vue 构建Web组件
+- Vue-router 管理客户端路由
+- Node/Express 提供后端API
+- JWTS 管理HTTP无状态的协议
+- Webpack 客户端构建工具
+- Mongodb/mongoose 数据库数据处理
 
-# build for production with minification
-npm run build
+## 项目运行
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
+### 安装依赖项
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+	npm install
+
+### 配置client/config.js
+
+	把文件中的url改为后端API接口地址
+
+### 运行Mongodb数据库
+
+	$ mongodb
+
+### 启动Node Server
+
+	$ npm run server
+
+### 启动客户端
+
+	$ npm run dev
+
+### 后面工作
+
+- 找bugs
+- 单元测试
+- 优化UI
+- 优化后端的代码
