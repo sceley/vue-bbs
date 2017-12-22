@@ -1,13 +1,11 @@
-const Comment = require('../models/schemas/comment');
 const User = require('../models/schemas/user');
 const jwt = require('../auth');
-module.exports = async(req, res) => {
-	let _comment = req.body;
-	let userName = jwt.decode(req.headers['x-access-token']);
+exports.forget = async(req, res) => {
+	let _user = req.body;
 	try {
 		let user = await new Promise((resolve, reject) => {
 			User.findOne({
-				userName
+				userName: _user.userName
 			}).exec((err, user) => {
 				if (err) {
 					reject(err);
@@ -16,10 +14,9 @@ module.exports = async(req, res) => {
 				}
 			});
 		});
-		_comment.from = user._id;
-		let comment = new Comment(_comment);
+		user.password = _user.password;
 		await new Promise((resolve, reject) => {
-			comment.save(err => {
+			user.save(err => {
 				if (err) {
 					reject(err);
 				} else {
@@ -27,13 +24,15 @@ module.exports = async(req, res) => {
 				}
 			});
 		});
+		let token = jwt.encode(_user.userName);
 		res.json({
 			errorcode: 0,
-			msg: 'successful'
+			msg: 'sucessful'
+			token
 		});
 	} catch (e) {
 		res.json({
-			errorcode: 500,
+			errorcode: 0,
 			msg: 'server wrong'
 		});
 	}

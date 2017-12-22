@@ -1,13 +1,11 @@
 # Club
 
 ## About
-
-基于Vue&&Node.js&&Mongodb构建的一个移动端个人论坛，旨在于锻炼自己，提交自己的技术修养
+基于Vue.js&&Node.js&&Mongodb构建的一个移动端个人论坛，旨在于锻炼自己，提交自己的技术
 
 上线地址: [https://club.qinyongli.cn](https://club.qinyongli.cn)
 
 ## 用到的技术栈
-
 - Vue 构建Web组件
 - Vue-router 管理客户端路由
 - Node/Express 提供后端API
@@ -17,28 +15,32 @@
 
 ## 项目运行
 
-### 安装依赖项
+### 运行Mongodb数据库
+	mongod
 
+### 后台运行
+
+#### 进到server目录
+	cd server/
+
+#### 安装依赖项
 	npm install
 
-### 配置client/config.js
+#### 启动server
+	npm start
 
-	把文件中的url改为后端API接口地址
+### 客户端运行
 
-### 运行Mongodb数据库
+#### 进到server目录
+	cd client/
 
-	$ mongodb
+#### 安装依赖项
+	npm install
 
-### 启动Node Server
-
-	$ npm run server
-
-### 启动客户端
-
-	$ npm run dev
+#### 启动Node Server
+	npm run server
 
 ## 后面工作
-
 - 找bugs
 - 单元测试
 - 优化UI

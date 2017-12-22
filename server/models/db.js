@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
-const db = mongoose.createConnection('mongodb://localhost:27017/production');
-db.on('open', () => {
-	console.log('database have connected to server');
-});
-db.on('err', () => {
-	console.log('server connect to database having error');
-});
+const config = require('../config');
+
+let dbUrl = config.dbUrl;
+let db = mongoose.createConnection(dbUrl);
+if (process.env.NODE_ENV == 'development') {
+	db.on('open', () => {
+		console.log('database have connected to server');
+	});
+	db.on('err', () => {
+		console.log('server connect to database having error');
+	});
+}
 module.exports = db;

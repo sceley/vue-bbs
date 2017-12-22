@@ -1,8 +1,6 @@
-const Comment = require('../models/schemas/comment');
-const User = require('../models/schemas/user');
-const jwt = require('../auth');
 module.exports = async(req, res) => {
-	let _comment = req.body;
+	let _reply = req.body;
+	let id = req.params.id;
 	let userName = jwt.decode(req.headers['x-access-token']);
 	try {
 		let user = await new Promise((resolve, reject) => {
@@ -16,11 +14,20 @@ module.exports = async(req, res) => {
 				}
 			});
 		});
-		_comment.from = user._id;
-		let comment = new Comment(_comment);
+		_reply.from = user._id;
+		let comment = await new Promise((resolve, reject) => {
+			Comment.findById(id).exec((err, comment) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(comment);
+				}
+			});
+		});
+		comment.reply.push(_reply);
 		await new Promise((resolve, reject) => {
 			comment.save(err => {
-				if (err) {
+				if(err) {
 					reject(err);
 				} else {
 					resolve();

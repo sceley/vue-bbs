@@ -1,8 +1,9 @@
+const Topic = require('../models/schemas/topic');
 const Comment = require('../models/schemas/comment');
 const User = require('../models/schemas/user');
 const jwt = require('../auth');
 module.exports = async(req, res) => {
-	let _comment = req.body;
+	let _topic = req.body;
 	let userName = jwt.decode(req.headers['x-access-token']);
 	try {
 		let user = await new Promise((resolve, reject) => {
@@ -16,17 +17,17 @@ module.exports = async(req, res) => {
 				}
 			});
 		});
-		_comment.from = user._id;
-		let comment = new Comment(_comment);
+		_topic.user = user._id;
+		let topic = new Topic(_topic);
 		await new Promise((resolve, reject) => {
-			comment.save(err => {
+			topic.save(err => {
 				if (err) {
 					reject(err);
 				} else {
 					resolve();
 				}
 			});
-		});
+		});	
 		res.json({
 			errorcode: 0,
 			msg: 'successful'

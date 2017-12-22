@@ -19,7 +19,7 @@ const Schema = mongoose.Schema({
 	}
 });
 
-Schema.static('findTopic', function  (query, p, callback) {
+Schema.static('findTopic', function (query, p, callback) {
 	this.find(query).sort('-create_at')
 	.skip((p - 1) * 10).limit(10)
 	.populate('user').exec(callback);

@@ -1,6 +1,9 @@
 const nodemailer = require('nodemailer');
-const user = '1538306377@qq.com';
-const pass = 'xmmkbfqyihunggif';
+const config = require('./config');
+
+let user = config.email;
+let pass = config.emailPass;
+
 let transport = nodemailer.createTransport({
 	service: 'QQ',
 	auth: {
@@ -8,15 +11,22 @@ let transport = nodemailer.createTransport({
 		pass
 	}
 });
-module.exports = (email) => {
+
+module.exports = async email => {
 	let number = Math.floor(Math.random() * 100000);
-	transport.sendMail({
-		from: '1538306377@qq.com',
-		to: email,
-		subject: '论坛验证码',
-		html: `覃永利论坛的验证码: ${number}，多谢支持。。。`
-	}, (err, res) => {
-		if(err) return console.log(`err:${err}`);
+	await new Promise((resolve, reject) => {
+		transport.sendMail({
+			from: '1538306377@qq.com',
+			to: email,
+			subject: '论坛验证码',
+			html: `覃永利论坛的验证码: ${number}，多谢支持。。。`
+		}, (err, res) => {
+			if(err) {
+				reject(err);
+			} else {
+				resolve();
+			}
+		});
 	});
 	return number;
 };
