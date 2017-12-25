@@ -1,10 +1,6 @@
 <template>
-	<div class="NotFound">
-		Not Found
+	<div class="container-fluid">
+		<h1>404</h1>
+		<h2>Not Found</h2>
 	</div>
 </template>
-<style>
-	.NotFound {
-		text-align: center;
-	}
-</style>

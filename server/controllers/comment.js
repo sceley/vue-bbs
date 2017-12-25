@@ -1,9 +1,9 @@
 const Comment = require('../models/schemas/comment');
 const User = require('../models/schemas/user');
 const jwt = require('../auth');
-module.exports = async(req, res) => {
+module.exports = async(session, req, res) => {
 	let _comment = req.body;
-	let userName = jwt.decode(req.headers['x-access-token']);
+	let userName = session.userName;
 	try {
 		let user = await new Promise((resolve, reject) => {
 			User.findOne({

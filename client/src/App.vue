@@ -9,19 +9,19 @@
 					<a href="/">首页</a>
 				</li>
 				<li v-if="signin" class="menu-list">
-					<a href="/public">发表话题</a>
+					<a href="/topic/public">发表话题</a>
 				</li>
 				<li v-if="!signin" class="menu-list">
-					<a href="/signup">注册</a>
+					<a href="/user/signup">注册</a>
 				</li>
 				<li v-if="!signin" class="menu-list">
-					<a href="/signin">登陆</a>
+					<a href="/user/signin">登陆</a>
 				</li>
 				<li v-if="signin" class="menu-list">
 					<a @click="signout" href="javascript:;">退出</a>
 				</li>
 				<li v-if="signin" class="menu-list">
-					<a href="/setting">设置</a>
+					<a href="/user/setting">设置</a>
 				</li>
 			</ul>
 		</div>
@@ -34,14 +34,13 @@
 		name: 'app',
 		data () {
 			return {
-				signin: localStorage.token,
-				topic: []
+				signin: localStorage.token
 			}
 		},
 		methods: {
 			signout () {
-				localStorage.token = '';
-				location.href="/";
+				localStorage.token = null;
+				location.href = "/";
 			}
 		}
 	}

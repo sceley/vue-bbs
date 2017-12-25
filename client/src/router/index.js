@@ -16,12 +16,12 @@ export default new Router({
 	mode: 'history',
 	routes: [
 		{
-			path: '/signup',
+			path: '/user/signup',
 			name: 'Signup',
 			component: Signup
 		},
 		{
-			path: '/signin',
+			path: '/user/signin',
 			name: 'Signin',
 			component: Signin
 		},
@@ -31,12 +31,12 @@ export default new Router({
 			component: Forget
 		},
 		{
-			path: '/setting',
+			path: '/user/setting',
 			name: 'Setting',
 			component: Setting
 		},
 		{
-			path: '/public',
+			path: '/topic/public',
 			name: 'Public',
 			component: Public
 		},
@@ -51,7 +51,7 @@ export default new Router({
 			component: Detail
 		},
 		{
-			path: '/user/:id',
+			path: '/user/:username',
 			name: 'User',
 			component: User
 		},

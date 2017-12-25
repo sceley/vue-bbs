@@ -7,21 +7,21 @@
 				<span>用户</span>
 			</div>
 			<div class="panel-body panel-custom">
-				<div class="pull-center">我的头像</div>
+				<div class="pull-center">头像</div>
 				<div class="gravatar-wrap">
-					<img class="gravatar" v-bind:src="settingurl + '/' + user.gravatar">
+					<img class="gravatar" v-bind:src="userInfo.gravatar">
 				</div>
 				<div class="form-group">
-					<label for="">用户名</label>
-					<div>{{ user.userName }}</div>
+					<label>用户名</label>
+					<div>{{ userInfo.userName }}</div>
 				</div>
 				<div class="form-group">
-					<label for="">邮箱</label>
-					<div>{{ user.email }}</div>
+					<label>邮箱</label>
+					<div>{{ userInfo.email }}</div>
 				</div>
 				<div class="form-group">
-					<label for="">个性签名</label>
-					<div>{{ user.signature }}</div>
+					<label>个性签名</label>
+					<div>{{ userInfo.signature }}</div>
 				</div>
 			</div>
 			<div class="panel-heading">
@@ -34,7 +34,9 @@
 							{{ item.tab }}
 						</div>
 						<div class="col-xs-9">
-							<a v-bind:href="'/topic/' + item._id">{{ item.title }}</a>
+							<a v-bind:href="'/topic/' + item._id">
+								{{ item.title }}
+							</a>
 						</div>
 					</div>
 				</div>
@@ -43,26 +45,46 @@
 	</div>
 </template>
 <script>
-	import config from '../../config/config';
+	import config from '../../config/config'
+	import 'whatwg-fetch'
 	export default {
 		data () {
 			return {
-				user: '',
-				topic: '',
-				settingurl: ''
+				userInfo: '',
+				topic: ''
 			}
 		},
 		created () {
-			this.settingurl = config.settingurl;
-			fetch(`${this.settingurl}${location.pathname}`)
+			//userInfo
+			// fetch(`${config.server}/user/${location.pathname}`)
+			fetch(`http://yapi.demo.qunar.com/mock/2781/club/user/sceley`)			
 			.then(res => {
 				if(res.ok){
 					return res.json();
 				}
 			})
 			.then(json => {
-				this.user = json.user;
-				this.topic = json.topic;
+				if (!json.errocode) {
+					this.userInfo = json.userInfo;
+				} else if(json.errocode == 500) {
+					console.log(json.msg);
+				}
+			});
+
+			//user-topic
+			fetch(`http://yapi.demo.qunar.com/mock/2781/club/user/sceley`)			
+			.then(res => {
+				if(res.ok){
+					return res.json();
+				}
+			})
+			.then(json => {
+				if (!json.errocode) {
+					this.userInfo = json.userInfo;
+					this.topic = json.topic;
+				} else if(json.errocode == 500) {
+					console.log(json.msg);
+				}
 			});
 		}
 	}

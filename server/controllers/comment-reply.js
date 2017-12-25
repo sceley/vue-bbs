@@ -1,7 +1,7 @@
-module.exports = async(req, res) => {
+module.exports = async(session, req, res) => {
 	let _reply = req.body;
 	let id = req.params.id;
-	let userName = jwt.decode(req.headers['x-access-token']);
+	let userName = session.userName;
 	try {
 		let user = await new Promise((resolve, reject) => {
 			User.findOne({

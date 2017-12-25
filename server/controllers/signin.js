@@ -1,7 +1,7 @@
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 const User = require('../models/schemas/user');
-const jwt = require('../auth');
+const sign = require('../jwt').sign;
 
 module.exports = async(req, res) => {
 	let _user = req.body;
@@ -17,6 +17,7 @@ module.exports = async(req, res) => {
 				}
 			});
 		});
+
 		if (user) {
 			let result = await new Promise((resolve, reject) => {
 				bcrypt.compare(_user.password, user.password, function(err, res) {
@@ -28,7 +29,15 @@ module.exports = async(req, res) => {
 				});
 			});
 			if (result) {
-				let token = jwt.encode(_user.userName);
+				let token = await new Promise((resolve, reject) => {
+					sign(_user.userName, (err, token) => {
+						if (err) {
+							reject(err);
+						} else {
+							resolve(token);
+						}
+					});
+				});
 				res.setHeader('x-access-token', token);
 				res.json({
 					errorcode: 0,
@@ -40,7 +49,6 @@ module.exports = async(req, res) => {
 					msg: 'the password is wrong'
 				});
 			}
-			
 		} else {
 			res.json({
 				errorcode: 4,

@@ -5,7 +5,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-3">
-				<img v-bind:src="settingurl + '/' + message.from.gravatar" alt="">
+				<img v-bind:src="message.from.gravatar" alt="">
 			</div>
 			<div class="col-xs-7">
 				{{ message.from.userName }}
@@ -27,7 +27,8 @@
 	</div>
 </template>
 <script>
-	import config from '../../config/config';
+	import config from '../../config/config'
+	import fetch from 'whatwg-fetch'
 	export default {
 		data () {
 			return {

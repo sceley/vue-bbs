@@ -29,8 +29,9 @@
 	</div>
 </template>
 <script>
-	import Reply from './reply';
-	import config from '../../config/config';
+	import Reply from './reply'
+	import config from '../../config/config'
+	import fetch from 'whatwg-fetch'
 	export default {
 		data () {
 			return {
