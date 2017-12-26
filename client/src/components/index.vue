@@ -21,19 +21,20 @@
                 </ul>
             </div>
             <div class="panel-body">
+                <p class="bg-info">{{ topic_status }}</p>
                 <ul class="nav nav-pills nav-stacked">
                     <li v-for="item in topic">
                         <div class="row">
                             <div class="col-xs-3 col-custom">
-                                <a v-bind:href="'user/' + item.userInfo._id">
-                                    <img class="img-thumbnail" v-bind:src="item.userInfo.gravatar">
+                                <a v-bind:href="'/user/' + item.author_id.userName">
+                                    <img class="img-thumbnail" v-bind:src="item.author_id.gravatar">
                                 </a>
                             </div>
                             <div class="col-xs-2 col-custom">
                                 <span class="topic-tab">{{ item.tab }}</span>
                             </div>
                             <div class="col-xs-7 col-custom">
-                                <a v-bind:href="'topic/' + item._id">
+                                <a v-bind:href="'/topic/' + item._id">
                                     <div class="topic-title">
                                         {{ item.title }}
                                     </div>
@@ -79,49 +80,55 @@
                 pages: '',
                 page: '',
                 pageselect: '',
-                tab: ''
+                tab: '',
+                topic_status: ''
             }
         },
         methods: {
             signout () {
                 localStorage.token = '';
                 location.href="/";
+            },
+            pagination () {
+                this.pageselect = [this.page - 2, this.page - 1, this.page, 
+                this.page + 1, this.page + 2];
+
+                this.pageselect = this.pageselect.filter(item => {
+                    return (item >= 1 && item <= this.pages);
+                });
             }
         },
         created () {
-            // let query = computedQuery(location.search);
-            // this.tab = query.tab || 'all';
-            // this.page = parseInt(query.page) || 1;
-            
-            // fetch(`${}/page/?tab=${this.tab}`)
-            // .then(res => {
-            //     if(res.ok){
-            //         return res.json();
-            //     }
-            // }).then(json => {
-            //     if (json.errorcode)
-            //         this.pages = Math.ceil(json.count / 10);
-            // });
+            let query = computedQuery(location.search);
+            this.tab = query.tab || 'all';
+            this.page = parseInt(query.page) || 1;
 
-            // this.pageselect = [this.page - 2, this.page - 1, this.page, 
-            // this.page + 1, this.page + 2];
+            fetch(`${config.server}/topiccount/?tab=${this.tab}`)
+            .then(res => {
+                if(res.ok){
+                    return res.json();
+                }
+            }).then(json => {
+                if (!json.errorcode){
+                    this.pages = Math.ceil(json.count / 10);
+                    this.pagination();
+                } else {
+                    this.topic_status = json.msg;
+                }
+            });
 
-            // this.pageselect = this.pageselect.filter(item => {
-            //     return (item >= 1 && item <= this.pages);
-            // });
-
-            // fetch('http://yapi.demo.qunar.com/mock/2781/club/topic')
-            // .then(res => {
-            //     if(res.ok){
-            //         return res.json();
-            //     }
-            // }).then(json => {
-            //     console.log(json);
-            //     if (!json.errorcode) {
-            //         this.topic = json.topic;
-            //         console.log(this.topic);
-            //     }
-            // });
+            fetch(`${config.server}/topics${location.search}`)
+            .then(res => {
+                if(res.ok){
+                    return res.json();
+                }
+            }).then(json => {
+                if (!json.errorcode) {
+                    this.topic = json.topic;
+                } else {
+                    this.topic_status = json.msg;
+                }
+            });
         }
     }
 </script>

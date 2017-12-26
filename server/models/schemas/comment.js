@@ -2,25 +2,19 @@ const db = require('../db');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const Schema = mongoose.Schema({
-	topic: {
+	topic_id: {
 		type: ObjectId,
+		ref: 'topic',
 		required: true
 	},
-	from: {
+	author_id: {
 		type: ObjectId,
-		ref: 'User'
+		ref: 'user'
 	},
-	reply: [{
-		from: {
-			type: ObjectId,
-			ref: 'User'
-		},
-		to: {
-			type: ObjectId,
-			ref: 'User'
-		},
-		content: String
-	}],
+	replyer_id: {
+		type: ObjectId,
+		ref: 'user'
+	},
 	content: String
 });
-module.exports = db.model('Comment', Schema);
+module.exports = db.model('comment', Schema);

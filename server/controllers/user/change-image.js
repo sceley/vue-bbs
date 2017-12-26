@@ -1,19 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
-const Topic = require('../models/schemas/topic');
-const User = require('../models/schemas/user');
-const jwt = require('../auth');
+const User = require('../../models/schemas/user');
 
-
-
-
-
-
-
-exports.changeImage = async (req, res) => {
-	let userName = jwt.decode(req.headers['x-access-token']);
+module.exports = async (req, res) => {
 	let imgbuffer = req.files[0].buffer;
+	let userName = req.session.userName;
 	try {
 		let img_src = await new Promise((resolve, reject) => {
 			User.findOne({
@@ -30,7 +22,7 @@ exports.changeImage = async (req, res) => {
 		img_src.replace(/(\d+\.(jpg|png))$/, (match, _img_name) => {
 			img_name = _img_name;
 		});
-		let img_path = path.join(__dirname, '../public/img', img_name);
+		let img_path = path.join(__dirname, '../../public/img', img_name);
 		await new Promise((resolve, reject) => {
 			fs.writeFile(img_path, imgbuffer, err => {
 				if(err) reject(err);
@@ -39,13 +31,13 @@ exports.changeImage = async (req, res) => {
 		});
 		res.json({
 			errorcode: 0,
-			msg: 'successful',
+			msg: 'successful'
 		});
 
 	} catch (e) {
 		res.json({
-			errorcode: 500,
-			msg: 'server wrong'
+			errorcode: 555,
+			msg: '服务器错误'
 		});
 	}
 };

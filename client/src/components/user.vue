@@ -7,21 +7,22 @@
 				<span>用户</span>
 			</div>
 			<div class="panel-body panel-custom">
+				<p class="bg-info">{{  }}</p>
 				<div class="pull-center">头像</div>
 				<div class="gravatar-wrap">
-					<img class="gravatar" v-bind:src="userInfo.gravatar">
+					<img class="gravatar" v-bind:src="user.gravatar">
 				</div>
 				<div class="form-group">
 					<label>用户名</label>
-					<div>{{ userInfo.userName }}</div>
+					<div>{{ user.userName }}</div>
 				</div>
 				<div class="form-group">
 					<label>邮箱</label>
-					<div>{{ userInfo.email }}</div>
+					<div>{{ user.email }}</div>
 				</div>
 				<div class="form-group">
 					<label>个性签名</label>
-					<div>{{ userInfo.signature }}</div>
+					<div>{{ user.signature }}</div>
 				</div>
 			</div>
 			<div class="panel-heading">
@@ -50,14 +51,13 @@
 	export default {
 		data () {
 			return {
-				userInfo: '',
-				topic: ''
+				user: '',
+				topic: '',
+				user_status: ''
 			}
 		},
 		created () {
-			//userInfo
-			// fetch(`${config.server}/user/${location.pathname}`)
-			fetch(`http://yapi.demo.qunar.com/mock/2781/club/user/sceley`)			
+			fetch(`${config.server}${location.pathname}`)			
 			.then(res => {
 				if(res.ok){
 					return res.json();
@@ -65,25 +65,10 @@
 			})
 			.then(json => {
 				if (!json.errocode) {
-					this.userInfo = json.userInfo;
-				} else if(json.errocode == 500) {
-					console.log(json.msg);
-				}
-			});
-
-			//user-topic
-			fetch(`http://yapi.demo.qunar.com/mock/2781/club/user/sceley`)			
-			.then(res => {
-				if(res.ok){
-					return res.json();
-				}
-			})
-			.then(json => {
-				if (!json.errocode) {
-					this.userInfo = json.userInfo;
+					this.user = json.user;
 					this.topic = json.topic;
-				} else if(json.errocode == 500) {
-					console.log(json.msg);
+				} else {
+					this.user_status = json.msg;
 				}
 			});
 		}

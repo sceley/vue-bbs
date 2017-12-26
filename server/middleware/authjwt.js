@@ -11,11 +11,13 @@ module.exports = async(req, res, next) => {
 				}
 			});
 		});
-		next(session);
+		req.session = session;
+		next();
 	} catch (e) {
+		console.log(e);
 		res.json({
-			errorcode: 400,
-			msg: 'user not login'
+			errorcode: 333,
+			msg: '用户没有注册'
 		});
 	}
 };

@@ -23,15 +23,15 @@
 				<button @click="reply" class="btn btn-primary">回复</button>
 			</div>
 		</div>
-		<div class="reply" v-for="item in message.reply">
+		<!-- <div class="reply" v-for="item in message.reply">
 			<reply v-bind:message="item" v-bind:id="message._id"></reply>
-		</div>
+		</div> -->
 	</div>
 </template>
 <script>
-	import Reply from './reply'
+	// import Reply from './reply'
 	import config from '../../config/config'
-	import fetch from 'whatwg-fetch'
+	import 'whatwg-fetch'
 	export default {
 		data () {
 			return {
@@ -66,18 +66,18 @@
 					content: this.content,
 					to: this.message.from._id
 				};
-				fetch(`${this.settingurl}/reply/${id}`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						'x-access-token': localStorage.token
-					},
-					body: JSON.stringify(data)
-				}).then(res => {
-					if(res.ok){
-						location.reload();
-					}
-				});
+				// fetch(`${this.settingurl}/reply/${id}`, {
+				// 	method: 'POST',
+				// 	headers: {
+				// 		'Content-Type': 'application/json',
+				// 		'x-access-token': localStorage.token
+				// 	},
+				// 	body: JSON.stringify(data)
+				// }).then(res => {
+				// 	if(res.ok){
+				// 		location.reload();
+				// 	}
+				// });
 			}
 		}
 	}

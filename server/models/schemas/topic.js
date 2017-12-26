@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const db = require('../db');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const Schema = mongoose.Schema({
-	user: {
+	author_id: {
 		type: ObjectId,
-		ref: 'User'
+		ref: 'user'
 	},
 	tab: String,
 	title: String,
@@ -15,13 +15,16 @@ const Schema = mongoose.Schema({
 	},
 	create_at: {
 		type: Date,
-		default: Date.now
+		default: Date.now()
 	}
 });
 
 Schema.static('findTopic', function (query, p, callback) {
 	this.find(query).sort('-create_at')
 	.skip((p - 1) * 10).limit(10)
-	.populate('user').exec(callback);
+	.populate({
+		path: 'author_id',
+		select: 'gravatar userName'
+	}).exec(callback);
 });
-module.exports = db.model('Topic', Schema);
+module.exports = db.model('topic', Schema);

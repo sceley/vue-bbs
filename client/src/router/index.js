@@ -6,7 +6,7 @@ import Forget from '@/components/forget'
 import Setting from '@/components/setting'
 import Public from '@/components/public'
 import Index from '@/components/index'
-import Detail from '@/components/detail'
+import Topic from '@/components/topic'
 import User from '@/components/user'
 import NotFoundComponent from '@/components/NotFoundComponent'
 
@@ -47,8 +47,8 @@ export default new Router({
 		},
 		{
 			path: '/topic/:id',
-			name: 'Detail',
-			component: Detail
+			name: 'Topic',
+			component: Topic
 		},
 		{
 			path: '/user/:username',

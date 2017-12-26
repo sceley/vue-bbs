@@ -1,4 +1,6 @@
-module.exports = async(req, res) => {
+const Topic = require('../../models/schemas/topic');
+
+module.exports = async (req, res) => {
 	let query = {};
 	switch(req.query.tab) {
 		case 'technology':
@@ -33,8 +35,8 @@ module.exports = async(req, res) => {
 		});
 	} catch (e) {
 		res.json({
-			errorcode: 500,
-			msg: 'server wrong' 
+			errorcode: 555,
+			msg: '服务器错误' 
 		});
 	}
 };

@@ -1,9 +1,12 @@
-module.exports = async(req, res) => {
+const Topic = require('../../models/schemas/topic');
+const Comment = require('../../models/schemas/comment');
+
+module.exports = async (req, res) => {
 	let id = req.params.id;
 	try {
 		let topic = await new Promise((resolve, reject) => {
 			Topic.findById(id).populate({
-				path: 'user',
+				path: 'author_id',
 				select: 'userName'
 			}).exec((err, topic) => {
 				if (err) {
@@ -25,9 +28,9 @@ module.exports = async(req, res) => {
 		});
 		let comment = await new Promise((resolve, reject) => {
 			Comment.find({
-				topic: topic._id
+				topic_id: id
 			}).populate({
-				path: 'from reply.from reply.to',
+				path: 'author_id replyer_id',
 				select: 'userName gravatar'
 			}).exec((err, comment) => {
 				if (err) {
@@ -45,8 +48,8 @@ module.exports = async(req, res) => {
 		});
 	} catch (e) {
 		res.json({
-			errorcode: 500,
-			msg: 'server wrong'
+			errorcode: 555,
+			msg: '服务器错误'
 		});
 	}
 };

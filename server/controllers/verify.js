@@ -1,16 +1,17 @@
-const email = require('../email');
+const getVerifyCode = require('../getVerifyCode');
+
 module.exports = async (req, res) => {
 	try {
-		let verifyCode = await email(req.body.email);
+		let verifyCode = await getVerifyCode(req.body.email);
 		res.json({
 			errorcode: 0,
 			verifyCode,
-			msg: 'successfule'
+			msg: 'successful'
 		});
 	} catch (e) {
 		res.json({
-			errorcode: 500,
-			msg: 'server wrong'
+			errorcode: 555,
+			msg: '服务器错误'
 		});
 	}
 };

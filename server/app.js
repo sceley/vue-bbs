@@ -4,8 +4,9 @@ const morgan = require('morgan');
 const http = require('http');
 const bodyParser = require('body-parser');
 const routers = require('./routers');
+const config = require('./config');
 
-let port = process.env.PORT || 3000;
+let port = config.port;
 let app = express();
 let server = http.createServer(app);
 
@@ -16,7 +17,7 @@ app.all("*", (req, res, next) => {
 	next();
 });
 
-if (process.env.NODE_ENV　== 'development') {
+if (app.get('env')　== 'development') {
 	app.use(morgan('dev'));
 }
 

@@ -34,7 +34,7 @@
 
 <script>
     import config from '../../config/config';
-    import fetch from 'whatwg-fetch'
+    import 'whatwg-fetch'
     export default {
         data () {
             return {
@@ -70,22 +70,25 @@
                     title: this.title,
                     content: this.content
                 };
-                fetch(`/topic/public`, {
+                fetch(`${config.server}/topic/public`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'x-access-token': localStorage.token
                     },
                     body: JSON.stringify(data)
-                })
-                .then(res => {
+                }).then(res => {
                     if(res.ok){
                         return res.json();
                     }
-                })
-                .then(json => {
+                }).then(json => {
                     if(!json.errorcode) {
-                        location.reload();
+                        location.href = '/';
+                    } else　if(json.errorcode = 333) {
+                        localStorage.token = '';
+                        location.href = '/';
+                    } else {
+                        this.public_status = json.msg;
                     }
                 });
             }

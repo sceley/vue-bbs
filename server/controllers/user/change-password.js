@@ -1,20 +1,11 @@
 const bcrypt = require('bcrypt');
-module.exports = async(session, req, res) => {
+const User = require('../../models/schemas/user');
+
+module.exports = async(req, res) => {
 	let _user = req.body;
-	let userName = session.userName;
+	let userName = req.session.userName;
 	let saltRounds = 10;
 	try {
-		let user = await new Promise((resolve, reject) => {
-			User.findOne({
-				userName
-			}).exec((err, user) => {
-				if(err) {
-					reject(err);
-				} else {
-					resolve(user);
-				}
-			});
-		});
 		let hash = await new Promise((resolve, reject) => {
 			bcrypt.hash(_user.password, saltRounds, function(err, hash) {
 				if (err) {
@@ -24,10 +15,13 @@ module.exports = async(session, req, res) => {
 				}
 			});
 		});
-		user.password = hash;
 		await new Promise((resolve, reject) => {
-			user.save(err => {
-				if (err) {
+			User.update({
+				userName
+			}, {
+				password: hash
+			}).exec((err) => {
+				if(err) {
 					reject(err);
 				} else {
 					resolve();
@@ -40,8 +34,8 @@ module.exports = async(session, req, res) => {
 		});
 	} catch (e) {
 		res.json({
-			errorcode: 500,
-			msg: 'server wrong'
+			errorcode: 555,
+			msg: '服务器错误'
 		});
 	}
 };

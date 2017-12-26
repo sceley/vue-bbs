@@ -1,4 +1,6 @@
-module.exports = async(req, res) => {
+const Topic = require('../../models/schemas/topic');
+
+module.exports = async (req, res) => {
 	let page = req.query.page || 1;
 	let query = {};
 	switch(req.query.tab) {
@@ -16,7 +18,7 @@ module.exports = async(req, res) => {
 			break;
 	};
 	try {
-		let topic = new Promise((resolve, reject) => {
+		let topic = await new Promise((resolve, reject) => {
 			Topic.findTopic(query, page, (err, topic) => {
 				if (err) {
 					reject(err);
@@ -32,8 +34,8 @@ module.exports = async(req, res) => {
 		});
 	} catch (e) {
 		res.json({
-			errorcode: 500,
-			msg: 'server wrong'
+			errorcode: 555,
+			msg: '服务器错误'
 		});
 	}
 };

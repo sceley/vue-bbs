@@ -23,6 +23,7 @@ module.exports = async email => {
 		}, (err, res) => {
 			if(err) {
 				reject(err);
+				console.log(err);
 			} else {
 				resolve();
 			}

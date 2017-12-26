@@ -7,10 +7,11 @@
                 <span>设置</span>
             </div>
             <div class="panel-body">
+                <p v-if="userinfostatus" class="bg-info">{{ userinfostatus }}</p>
                 <form action="">
                     <div class="pull-center">我的头像</div>
                     <div class="gravatar-wrap">
-                        <img class="gravatar" v-bind:src="userInfo.gravatar">
+                        <img class="gravatar" v-bind:src="user.gravatar">
                     </div>
                     <div class="upfile">
                         <label class="btn btn-primary">
@@ -20,15 +21,15 @@
                     </div>
                     <div class="form-group">
                         <div class="pull-center">用户名</div>
-                        <div class="pull-center h4">{{ userInfo.userName }}</div>
+                        <div class="pull-center h4">{{ user.userName }}</div>
                     </div>
                     <div class="form-group">
                         <label for="">邮箱</label>
-                        <input v-model="userInfo.email" type="email" class="form-control" placeholder="邮箱">
+                        <input v-model="user.email" type="email" class="form-control" placeholder="邮箱">
                     </div>
                     <div class="form-group">
                         <label for="">个性签名</label>
-                        <textarea v-model="userInfo.signature" class="form-control" rows="3"></textarea>
+                        <textarea v-model="user.signature" class="form-control" rows="3"></textarea>
                     </div>
                     <div class="pull-center">
                         <button @click="savechange" type="button" class="btn btn-primary">保存设置</button>
@@ -39,7 +40,7 @@
                 更改密码
             </div>
             <div class="panel-body">
-                <p v-if="passwordstatus" class="info">
+                <p v-if="passwordstatus" class="bg-info">
                     {{ passwordstatus }}
                 </p>
                 <div class="form-group">
@@ -60,41 +61,54 @@
     export default {
         data () {
             return {
-                userInfo: '',
+                user: {
+                    email: '',
+                    password: '',
+                    userName: '',
+                    signature: ''
+                },
                 password: '',
-                passwordstatus: ''
+                passwordstatus: '',
+                userinfostatus: ''
             }
         },
         created () {
-            // if(!localStorage.token){
-            //   return location.href = '/';
-            // }
-            // let url = `${config.server}/user/sceley`;
-            // fetch('', {
-            //     method: 'GET',
-            //     headers: {
-            //         'x-access-token': localStorage.token
-            //     }
-            // })
-            fetch('http://yapi.demo.qunar.com/mock/2781/club/user/sceley')
-            .then(res => {
+            if(!localStorage.token){
+                return location.href = '/';
+            }
+            fetch(`${config.server}/user/setting`, {
+                method: 'GET',
+                headers: {
+                    'x-access-token': localStorage.token
+                }
+            }).then(res => {
                 if(res.ok){
                     return res.json();
                 }
-            })
-            .then(json => {
+            }).then(json => {
                 if (!json.errorcode) {
-                    this.userInfo = json.userInfo;
+                    this.user = json.user;
                 }
             });
         },
         methods: {
+            validate () {
+                let pattern = /^\w+@[a-z0-9]+\.[a-z]+$/i;
+                if (!pattern.test(this.user.email)) {
+                    this.userinfostatus = '邮箱格式错误';
+                    return 0;
+                }
+                return 1;
+            },
             savechange () {
+                if (!this.validate()) {
+                    return 0;
+                }
                 let data = {
-                    email: this.userInfo.email,
-                    signature: this.userInfo.signature
+                    email: this.user.email,
+                    signature: this.user.signature
                 };
-                fetch(`${config.server}/setting/reset-user-info`, {
+                fetch(`${config.server}/user/change-userinfo`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -107,15 +121,20 @@
                     }
                 }).then(json => {
                     if (!json.errorcode) {
-                        location.reload();
+                        this.userinfostatus = json.msg;
+                    } else if (json.errorcode == 333) {
+                        localStorage.token = '';
+                    } else {
+                        this.userinfostatus = json.msg;
                     }
                 });
             },
             changeimage () {
                 let imagImg = document.querySelector(".choose").files[0];
+                console.log(imagImg);
                 let data = new FormData();
                 data.append('image', imagImg);
-                fetch(`${config.server}/setting/changeimage`, {
+                fetch(`${config.server}/user/change-image`, {
                     method: 'POST',
                     headers: {
                         'x-access-token': localStorage.token
@@ -128,6 +147,11 @@
                 }).then(json => {
                     if (!json.errorcode) {
                         location.reload();
+                    } else if (json.errorcode = 333) {
+                        localStorage.token = '';
+                        location.href = '/';
+                    } else {
+                        this.userinfostatus = json.msg;
                     }
                 });
             },
@@ -138,7 +162,7 @@
                 let data = {
                     password: this.password
                 };
-                fetch(`${config.server}/changepassword`, {
+                fetch(`${config.server}/user/change-password`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -151,7 +175,13 @@
                     }
                 }).then(json => {
                     if (!json.errorcode) {
-                        location.reload();
+                        this.passwordstatus = json.msg;
+                        this.password = '';
+                    } else if (json.errorcode == 333) {
+                        localStorage.token = '';
+                        location.href = '/';
+                    } else {
+                        this.passwordstatus = json.msg;
                     }
                 });
             }

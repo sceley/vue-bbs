@@ -1,7 +1,9 @@
-exports.userInfo = async(req, res) => {
-	let userName = jwt.decode(req.headers['x-access-token']);
+const User = require('../../models/schemas/user');
+
+module.exports = async (req, res) => {
+	let userName = req.session.userName;
 	try {
-		let userInfo = await new Promise((resolve, reject) => {
+		let user = await new Promise((resolve, reject) => {
 			User.findOne({
 				userName
 			}).exec((err, userInfo) => {
@@ -14,13 +16,13 @@ exports.userInfo = async(req, res) => {
 		});
 		res.json({
 			errorcode: 0,
-			userInfo,
+			user,
 			msg: 'successful'
 		});
 	} catch (e) {
 		res.json({
 			errorcode: 500,
-			msg: 'server wrong'
+			msg: '服务器错误'
 		});
 	}
 };

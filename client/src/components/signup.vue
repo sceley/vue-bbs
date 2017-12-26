@@ -13,13 +13,13 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">用户名</div>
-                        <input v-model="userInfo.userName" class="form-control" type="text">
+                        <input v-model="user.userName" class="form-control" type="text">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">邮箱</div>
-                        <input v-model='userInfo.email' class="form-control" type="email">
+                        <input v-model='user.email' class="form-control" type="email">
                     </div>
                 </div>
                 <div class="form-group">
@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">密码</div>
-                        <input v-model="userInfo.password" class="form-control" type="password">
+                        <input v-model="user.password" class="form-control" type="password">
                     </div>
                 </div>
             </div>
@@ -56,7 +56,11 @@
     export default {
         data () {
             return {
-                userInfo: {},
+                user: {
+                    userName: '',
+                    password: '',
+                    email: ''
+                },
                 validatestatement: '',
                 verifyCode: '',
                 time: 0
@@ -64,16 +68,16 @@
         },
         methods: {
             validate () {
-                if(!this.userInfo.userName.trim()){
+                if(!this.user.userName.trim()){
                     this.validatestatement = "用户名不能为空";
                     return 0;
                 }
                 let pattern = /^\w+@[a-z0-9]+\.[a-z]+$/i;
-                if(!pattern.test(this.userInfo.email)){
+                if(!pattern.test(this.user.email)){
                     this.validatestatement = "请输入合法的邮箱";
                     return 0;
                 }
-                if(!this.userInfo.password.trim()){
+                if(!this.user.password.trim()){
                     this.validatestatement = "密码不能为空";
                     return 0;
                 }
@@ -82,31 +86,15 @@
                     return 0;
                 }
                 return 1;
-                // let data = {
-                //     userName: this.userName
-                // };
-                // fetch(`${this.settingurl}/existuser`, {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type':'application/json'
-                //     },
-                //     body: JSON.stringify(data)
-                // }).then(res => {
-                //     if(res.ok){
-                //         return res.json();
-                //     }
-                // }).then(json => {
-                //     console.log(json);
-                //     if(json._status){
-                //         this.isnext = true;
-                //         this.verify();
-                //     }
-                //     else{
-                //         this.validatestatement = json.statement;
-                //     }
-                // });
             },
             getVerifyCode () {
+                let pattern = /^\w+@[a-z0-9]+\.[a-z]+$/i;
+                if(!pattern.test(this.user.email)){
+                    this.validatestatement = "请输入合法的邮箱";
+                    return 0;
+                } else {
+                    this.validatestatement = "";
+                }
                 this.time = 5;
                 let time = setInterval(() => {
                     this.time--;
@@ -115,9 +103,9 @@
                     }
                 }, 1000);
                 let data = {
-                    email: this.email
+                    email: this.user.email
                 };
-                fetch(`/getVerifyCode`, {
+                fetch(`${config.server}/getVerifyCode`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -138,11 +126,11 @@
                     return 0;
                 }
                 let data = {
-                    email: this.email,
-                    password: this.password,
-                    userName: this.userName
+                    email: this.user.email,
+                    password: this.user.password,
+                    userName: this.user.userName
                 };
-                fetch(`/signup`, {
+                fetch(`${config.server}/user/signup`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -154,8 +142,9 @@
                     }
                 }).then(json => {
                     if (!json.errorcode) {
-                        localStorage.token = json.token;
-                        location.href = '/';
+                        location.href = '/user/signin';
+                    } else {
+                        this.validatestatement = json.msg;
                     }
                 });
             }

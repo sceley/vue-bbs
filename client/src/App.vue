@@ -39,7 +39,7 @@
 		},
 		methods: {
 			signout () {
-				localStorage.token = null;
+				localStorage.token = '';
 				location.href = "/";
 			}
 		}
