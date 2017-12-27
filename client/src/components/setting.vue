@@ -47,7 +47,7 @@
                     <label for="">新密码</label>
                     <input v-model="password" type="password" class="form-control" placeholder="新密码">
                 </div>
-                <div class="submit-wrap">
+                <div class="pull-center submit-wrap">
                     <button @click="changepassword" class="btn btn-primary">更改密码</button>
                 </div>
             </div>

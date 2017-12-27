@@ -23,8 +23,8 @@
                     <textarea v-model="content" class="form-control" rows="5"></textarea>
                 </div>
             </div>
-            <div class="panel-footer clearfix">
-                <button @click="public" class="btn btn-primary pull-right">
+            <div class="panel-footer pull-center">
+                <button @click="public" class="btn btn-primary">
                     发表
                 </button>
             </div>
@@ -106,5 +106,8 @@
     }
     a {
         color: #42b983;
+    }
+    .pull-center {
+        text-align: center;
     }
 </style>
