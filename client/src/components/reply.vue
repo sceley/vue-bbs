@@ -28,7 +28,7 @@
 		props: ['topic_id', 'replyer'],
 		methods: {
 			do_comment () {
-			    let pattern = /^@(\w+)\s{1}/;
+			    let pattern = /^@((\w+|[\u4e00-\u9fa5]+))\s{1}/;
 			    let replyer;
 			    let content = this.content;
 			    content.replace(pattern, (match, code) => {
