@@ -33,7 +33,7 @@
             <div class="panel-body">
                 <p class="bg-info">{{ topic_status }}</p>
                 <ul class="nav nav-pills nav-stacked">
-                    <li v-for="item in topic">
+                    <li class="topic-border-style" v-for="item in topic">
                         <div class="row">
                             <div class="col-xs-3 col-custom">
                                 <a :href="'/user/' + item.author_id.userName">
@@ -45,7 +45,7 @@
                             </div>
                             <div class="col-xs-7 col-custom">
                                 <a :href="'/topic/' + item._id">
-                                    <div class="topic-title">
+                                    <div class="break-word topic-title">
                                         {{ item.title }}
                                     </div>
                                 </a>
@@ -54,7 +54,6 @@
                     </li>
                 </ul>
             </div>
- 
             <div class="panel-footer footer">
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
@@ -175,5 +174,13 @@
     .img-size {
         width: 64px;
         height: 64px;
+    }
+    .break-word {
+        word-wrap: break-word;
+    }
+    .topic-border-style {
+        border-top: 1px solid #e7e7e7;
+        border-bottom: 1px solid #e7e7e7;
+        margin-top: 5px;
     }
 </style>

@@ -2,7 +2,7 @@
     <div class="topic">
         <div class="panel panel-default">
             <div class="panel-heading heading">
-                <h3>{{ topic.title }}</h3>
+                <h4 class="break-word">{{ topic.title }}</h4>
                 <p>
                     <span class="decription">发布于&nbsp;{{ topic.create_at }}</span>
                     <span class="decription">
@@ -11,7 +11,8 @@
                     <span class="decription">{{ topic.pv }}&nbsp;浏览</span>
                 </p>
             </div>
-            <div class="panel-body" v-html="topic.content">
+            <div class="break-word panel-body">
+                {{ topic.content }}
             </div>
             <div class="panel-heading">
                 回复
@@ -139,5 +140,8 @@
         border-radius: 4px;
         margin-top: 10px;
         padding: 5px;
+    }
+    .break-word {
+        word-wrap: break-word;
     }
 </style>

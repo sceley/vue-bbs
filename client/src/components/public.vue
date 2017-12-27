@@ -55,6 +55,10 @@
                     this.public_status = '标题不能为空';
                     return 0;
                 }
+                if(this.title.trim().length > 20) {
+                    this.public_status = '标题长度不能长于20';
+                    return 0;
+                }
                 if(!this.content.trim()){
                     this.public_status = '内容不能为空';
                     return 0;
