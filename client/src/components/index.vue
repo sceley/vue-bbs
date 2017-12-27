@@ -1,29 +1,29 @@
 <template>
-    <div class="topic">
+    <div class="index">
         <div class="panel panel-default">
-            <div class="panel-heading heading">
-                <ul class="nav nav-pills">
-                    <li>
+            <div class="panel-heading">
+                <ul class="index-nav">
+                    <li class="index-nav-item">
                         <a :class="{tab: tab=='all'}" href="/?tab=all">
                             全部
                         </a>
                     </li>
-                    <li>
+                    <li class="index-nav-item">
                         <a :class="{tab: tab=='technology'}" href="/?tab=technology">
                             技术
                         </a>
                     </li>
-                    <li>
+                    <li class="index-nav-item">
                         <a :class="{tab: tab=='entertainment'}" href="/?tab=entertainment">
                             娱乐
                         </a>
                     </li>
-                    <li>
+                    <li class="index-nav-item">
                         <a :class="{tab: tab=='life'}" href="/?tab=life">
                             生活
                         </a>
                     </li>
-                    <li>
+                    <li class="index-nav-item">
                         <a :class="{tab: tab=='interest'}" href="/?tab=interest">
                             兴趣
                         </a>
@@ -32,27 +32,18 @@
             </div>
             <div class="panel-body">
                 <p class="bg-info">{{ topic_status }}</p>
-                <ul class="nav nav-pills nav-stacked">
-                    <li class="topic-border-style" v-for="item in topic">
-                        <div class="row">
-                            <div class="col-xs-3 col-custom">
-                                <a :href="'/user/' + item.author_id.userName">
-                                    <img class="img-thumbnail" :src="item.author_id.gravatar">
-                                </a>
-                            </div>
-                            <div class="col-xs-2 col-custom">
-                                <span class="topic-tab">{{ item.tab }}</span>
-                            </div>
-                            <div class="col-xs-7 col-custom">
-                                <a :href="'/topic/' + item._id">
-                                    <div class="break-word topic-title">
-                                        {{ item.title }}
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                <div class="media topic-border-style" v-for="item in topic">
+                    <div class="media-left">
+                        <a :href="'/user/' + item.author_id.userName">
+                            <img class="img-size media-object" :src="item.author_id.gravatar" alt="...">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a class="break-word" :href="'/topic/' + item._id">{{ item.title }}</a>
+                        </h4>
+                    </div>
+                </div>
             </div>
             <div class="panel-footer footer">
                 <nav aria-label="Page navigation">
@@ -63,7 +54,7 @@
                             </a>
                         </li>
                         <li v-for="item in pageselect">
-                            <a :class="{page: page == item}" :href="'?tab='+tab+'&page='+item">
+                            <a :class="{tab: page == item}" :href="'?tab='+tab+'&page='+item">
                                 {{ item }}
                             </a>
                         </li>
@@ -145,42 +136,32 @@
 </script>
 
 <style scoped>
-    ul, li{
-        padding: 0;
-        margin: 0;
-    }
-    .heading, .footer {
+    .index-nav {
         text-align: center;
     }
-    .nav li a{
-        padding-top: 0;
-        padding-bottom: 0;
+    .index-nav-item {
+        display: inline-block;
+        margin: 5px 0;
     }
-    .tab, .page, .topic-tab{
+    .index-nav-item a {
+        padding: 5px 10px;
+    }
+    .tab {
         background: #80BD01;
         border-radius: 4px;
         color: white;
     }
-    .topic-tab{
-        padding: 4px 6px;
-    }
-    .col-custom{
-        padding: 5px;
-    }
-    .topic-title{
-        width: 100%;
-        overflow: hidden;
+    .footer {
+        text-align: center;
     }
     .img-size {
         width: 64px;
         height: 64px;
     }
-    .break-word {
-        word-wrap: break-word;
-    }
     .topic-border-style {
-        border-top: 1px solid #e7e7e7;
-        border-bottom: 1px solid #e7e7e7;
+        border: 2px solid #e7e7e7;
+        border-radius: 5px;
         margin-top: 5px;
+        padding: 5px;
     }
 </style>
