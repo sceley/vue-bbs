@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 module.exports = async (req, res) => {
 	let _user = req.body;
 	try {
+		let saltRounds = 10;
 		let hash = await new Promise((resolve, reject) => {
 			bcrypt.hash(_user.password, saltRounds, function(err, hash) {
 				if (err) {

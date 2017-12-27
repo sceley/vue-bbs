@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Signup from '@/components/signup'
 import Signin from '@/components/signin'
-import Forget from '@/components/forget'
+import seek_password from '@/components/seek-password'
 import Setting from '@/components/setting'
 import Public from '@/components/public'
 import Index from '@/components/index'
@@ -26,9 +26,9 @@ export default new Router({
 			component: Signin
 		},
 		{
-			path: '/forget',
-			name: 'Forget',
-			component: Forget
+			path: '/user/seek-password',
+			name: 'seek_password',
+			component: seek_password
 		},
 		{
 			path: '/user/setting',

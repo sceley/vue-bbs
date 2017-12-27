@@ -12,7 +12,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">用户名</div>
-                            <input v-model="userInfo.userName" class="form-control" type="text">
+                            <input v-model="user.userName" class="form-control" type="text">
                         </div>
                     </div>
                     <div class="form-group">
@@ -28,13 +28,13 @@
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">新密码</div>
-                            <input v-model="userInfo.password" class="form-control" type="password">
+                            <input v-model="user.password" class="form-control" type="password">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="panel-footer clearfix">
-                <button @click="forget" class="btn btn-primary pull-right">
+                <button @click="seek_password" class="btn btn-primary pull-right">
                     找回密码
                 </button>
             </div>
@@ -48,7 +48,10 @@
     export default {
         data () {
             return {
-                userInfo: {},
+                user: {
+                    userName: '',
+                    password: ''
+                },
                 getStatus: '',
                 verifyCode: '',
                 time: 0
@@ -59,11 +62,11 @@
         },
         methods: {
             validate () {
-                if(!this.userInfo.userName.trim()){
+                if(!this.user.userName.trim()){
                     this.getStatus = "用户名不能为空";
                     return 0;
                 }
-                if(!this.userInfo.password.trim()){
+                if(!this.user.password.trim()){
                     this.getStatus = "密码不能为空";
                     return 0;
                 }
@@ -74,80 +77,66 @@
                 return 1;
             },
             getVerifyCode () {
-                console.log(this.userInfo.userName);
-                if(!this.userInfo.userName.trim()){
+                if(!this.user.userName.trim()){
                     this.getStatus = "用户名不能为空";
                     return 0;
                 };
+                this.time = 5;
+
                 let time = setInterval(() => {
                     this.time--;
-                    if(this.time == 0){
-                        this.time = 60;
+                    if(this.time <= 0){
                         clearInterval(time);
                     }
                 }, 1000);
+
                 let data = {
-                    userName: this.userInfo.userName
+                    userName: this.user.userName
                 };
-                // fetch(`/`, {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json'
-                //     },
-                //     body: JSON.stringify(data)
-                // }).then(res => {
-                //     if(res.ok){
-                //         return res.json();
-                //     }
-                // }).then(json => {
-                //     if(!json.errorcode){
-                //         json.realVerifyCode = json.verifyCode;
-                //     }
-                //     else{
-                //         this.getStatus = json.getStatus;
-                //     }
-                // });
+
+                fetch(`${config.server}/seek/getVerifyCode`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(res => {
+                    if(res.ok){
+                        return res.json();
+                    }
+                }).then(json => {
+                    if(!json.errorcode){
+                        this.realVerifyCode = json.verifyCode;
+                    } else {
+                        this.getStatus = json.msg;
+                    }
+                });
             },
-            // verify () {
-                
-            //     let data = {
-            //         email: this.email
-            //     };
-            //     fetch(`${this.settingurl}/verify`, {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         },
-            //         body: JSON.stringify(data)
-            //     }).then(res => {
-            //         if(res.ok) {
-            //             return res.json();
-            //         }
-            //     }).then(json => {
-            //         this.verifyCode = json.verifyCode;
-            //     });
-            // },
-            forget () {
+            seek_password () {
+                if (!this.validate()) {
+                    return 0;
+                }
                 let data = {
-                    userName: this.userName,
-                    password: this.password
+                    userName: this.user.userName,
+                    password: this.user.password
                 };
-                // fetch(`/forget`, {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json'
-                //     },
-                //     body: JSON.stringify(data)
-                // }).then((res) => {
-                //     if(res.ok){
-                //         return res.json();
-                //     }
-                // }).then(json => {
-                //     if (json.errorcode) {
-                //         localStorage.token = json.token;
-                //         location.href = '/';
-                //     }
-                // });
+                fetch(`${config.server}/user/seek-password`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then((res) => {
+                    if(res.ok){
+                        return res.json();
+                    }
+                }).then(json => {
+                    if (!json.errorcode) {
+                        location.href = '/signin';
+                    } else {
+                        this.getStatus = json.msg;
+                    }
+                });
             }
         }
     }

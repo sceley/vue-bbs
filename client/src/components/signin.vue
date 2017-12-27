@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div class="forget-password">
-                        <a href="/user/forget">忘记密码</a>
+                        <a href="/user/seek-password">忘记密码</a>
                     </div>
                 </form>
             </div>
