@@ -1,5 +1,5 @@
 <template>
-    <div class="sign-up">
+    <div class="publish-container">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <a href="/">首页</a>
@@ -101,13 +101,7 @@
 </script>
 
 <style scoped>
-    .sign-up{
-        margin-top: 20px;
-    }
     a {
         color: #42b983;
-    }
-    .pull-center {
-        text-align: center;
     }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="sign-up">
+    <div class="seek-container">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <a href="/">首页</a>
@@ -39,8 +39,8 @@
                     </div>
                 </form>
             </div>
-            <div class="panel-footer clearfix">
-                <button @click="seek_password" class="btn btn-primary pull-right">
+            <div class="panel-footer pull-center">
+                <button @click="seek_password" class="btn btn-primary">
                     找回密码
                 </button>
             </div>
@@ -146,9 +146,6 @@
 </script>
 
 <style scoped>
-    .sign-up{
-        margin-top: 20px;
-    }
     a {
         color: #42b983;
     }

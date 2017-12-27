@@ -1,14 +1,18 @@
 <template>
-    <div class="topic">
+    <div class="topic-container">
         <div class="panel panel-default">
-            <div class="panel-heading heading">
-                <h4 class="break-word">{{ topic.title }}</h4>
+            <div class="panel-heading">
+                <h3 class="break-word">{{ topic.title }}</h3>
                 <p>
-                    <span class="decription">发布于&nbsp;{{ topic.create_at }}</span>
+                    <span class="decription">
+                        发布于&nbsp;{{ topic.create_at }}
+                    </span>
                     <span class="decription">
                         作者&nbsp;{{author}}
                     </span>
-                    <span class="decription">{{ topic.pv }}&nbsp;浏览</span>
+                    <span class="decription">
+                        {{ topic.pv }}&nbsp;浏览
+                    </span>
                 </p>
             </div>
             <div class="break-word panel-body">
@@ -18,20 +22,22 @@
                 回复
             </div>
             <div class="panel-body">
-                <div class="comment-ceil" v-for="item in comments">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <img class="img-thumbnail" :src="item.author_id.gravatar">
-                        </div>
-                        <div class="col-xs-8">
-                            {{ item.author_id.userName }}
-                        </div>
-                    </div>
-                    <div style="margin-top:5px;" class="content">
-                        <a v-if="item.replyer_id" :href="'/user/'+item.replyer_id.userName">
-                            @{{ item.replyer_id.userName }}
+                <div v-for="item in comments" class="media comment-ceil">
+                    <div class="media-left">
+                        <a :href="'/user/'+item.author_id.userName">
+                            <img class="img-thumbnail img-size media-object" :src="item.author_id.gravatar" alt="...">
                         </a>
-                        {{ item.content }}
+                    </div>
+                    <div class="media-body">
+                        <h4>{{ item.author_id.userName }}</h4>
+                    </div>
+                    <div>
+                        <h4>
+                            <a v-if="item.replyer_id" :href="'/user/'+item.replyer_id.userName">
+                                @{{ item.replyer_id.userName }}
+                            </a>
+                            {{ item.content }}
+                        </h4>
                     </div>
                     <Reply :replyer="item.author_id.userName" :topic_id="topic._id"/>
                 </div>
@@ -40,7 +46,7 @@
                 添加评论
             </div>
             <p v-if="topic_status" class="bg-info">{{ topic_status }}</p>
-            <div class="panel-body">
+            <div class="pull-center panel-body">
                 <div class="form-group">
                     <textarea v-model="content" class="form-control" rows="5"></textarea>
                 </div>
@@ -130,7 +136,7 @@
 <style scoped>
     .decription:before{
         content: '•';
-        padding-right: 4px;
+        padding-right: 2px;
     }
     .decription{
         padding: 0 4px;
@@ -140,6 +146,10 @@
         border-radius: 4px;
         margin-top: 10px;
         padding: 5px;
+    }
+    .img-size {
+        width: 64px;
+        height: 64px;
     }
     .break-word {
         word-wrap: break-word;

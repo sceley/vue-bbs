@@ -1,5 +1,5 @@
 <template>
-    <div class="sign-up">
+    <div class="setting-container">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <a href="/">首页</a>
@@ -11,7 +11,7 @@
                 <form action="">
                     <div class="pull-center">我的头像</div>
                     <div class="gravatar-wrap">
-                        <img class="gravatar" v-bind:src="user.gravatar">
+                        <img class="gravatar" :src="user.gravatar">
                     </div>
                     <div class="upfile">
                         <label class="btn btn-primary">
@@ -197,11 +197,11 @@
 </script>
 
 <style scoped>
-    .sign-up{
-        margin-top: 20px;
+    .gravatar {
+        width: 120px;
     }
     .gravatar-wrap{
-        margin: 0 auto;
+        text-align: center;
         margin-bottom: 10px;
         margin-top: 10px;
     }
@@ -210,15 +210,10 @@
         margin: 20px 0;
         text-align: center;
     }
-    .choose, .gravatar-wrap{
-        width: 120px;
-    }
     .choose{
+        width: 120px;
         position: absolute;
         opacity: 0;
-    }
-    .pull-center{
-        text-align: center;
     }
     a {
         color: #42b983;

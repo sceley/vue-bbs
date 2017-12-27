@@ -81,4 +81,8 @@
 		padding: 0 15px;
 		float: left;
 	}
+
+	.pull-center {
+		text-align: center;
+	}
 </style>

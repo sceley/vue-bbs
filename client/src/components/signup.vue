@@ -1,5 +1,5 @@
 <template>
-    <div class="sign-up">
+    <div class="signup-container">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <a href="/">首页</a>
@@ -40,8 +40,8 @@
                     </div>
                 </div>
             </div>
-            <div class="panel-footer clearfix">
-                <button @click="signup" class="btn btn-primary pull-right">
+            <div class="panel-footer pull-center">
+                <button @click="signup" class="btn btn-primary">
                     注册
                 </button>
             </div>
@@ -156,19 +156,7 @@
 </script>
 
 <style scoped>
-    .sign-up{
-        margin-top: 20px;
-    }
-    .panel-custom{
-        border-radius: 0px;
-    }
     a {
         color: #42b983;
-    }
-    .signup-wrap{
-        display: none;
-    }
-    ._info{
-        position: fixed;
     }
 </style>

@@ -1,15 +1,15 @@
 <template>
-	<div class="user">
-		<div class="panel panel-default panel-custom">
-			<div class="panel-heading panel-custom">
+	<div class="user-container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
 				<a href="/">首页</a>
 				<span>/</span>
 				<span>用户</span>
 			</div>
-			<div class="panel-body panel-custom">
+			<div class="panel-body">
 				<p class="bg-info">{{  }}</p>
 				<div class="pull-center">头像</div>
-				<div class="gravatar-wrap">
+				<div>
 					<img class="gravatar" v-bind:src="user.gravatar">
 				</div>
 				<div class="form-group">
@@ -29,18 +29,16 @@
 				话题:
 			</div>
 			<div class="panel-body">
-				<div v-for="item in topic" class="topic-cell">
-					<div class="row">
-						<div class="tab col-xs-3">
+				<ul class="list-group">
+					<li v-for="item in topic" class="list-group-item">
+						<span class="tab">
 							{{ item.tab }}
-						</div>
-						<div class="col-xs-9">
-							<a v-bind:href="'/topic/' + item._id">
-								{{ item.title }}
-							</a>
-						</div>
-					</div>
-				</div>
+						</span>
+						<a :href="'/topic/' + item._id">
+							{{ item.title }}
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -75,25 +73,15 @@
 	}
 </script>
 <style scoped>
-	.user {
-		margin-top: 20px;
-	}
-	.pull-center {
-		text-align: center;
-	}
 	.gravatar {
 		display: block;
 		width: 100px;
 		margin: 0 auto;
 		margin-top: 10px;
 	}
-	.topic-cell {
-		border-bottom: 1px solid #ddd;
-		padding: 5px 0;
-	}
 	.tab {
 		background: #80BD01;
-		border-radius: 10px;
-		text-align: center;
+		padding: 5px 10px;
+		border-radius: 5px;
 	}
 </style>

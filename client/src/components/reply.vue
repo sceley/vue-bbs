@@ -1,12 +1,12 @@
 <template>
-	<div>
+	<div class="reply-container">
 		<p v-if="reply_status" class="bg-danger">
 			{{ reply_status }}
 		</p>
 		<div class="clearfix">
 			<span @click="showModel" class="btn-showModel pull-right glyphicon glyphicon-share-alt"></span>
 		</div>
-		<div v-if="show">
+		<div class="pull-center" v-if="show">
 			<div class="form-group">
 				<textarea v-model="content" class="form-control" rows="5"></textarea>
 			</div>

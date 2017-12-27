@@ -1,5 +1,5 @@
 <template>
-    <div class="index">
+    <div class="index-container">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <ul class="index-nav">

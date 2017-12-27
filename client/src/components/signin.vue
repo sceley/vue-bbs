@@ -1,5 +1,5 @@
 <template>
-    <div class="sign-up">
+    <div class="signup-container">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <a href="/">首页</a>
@@ -21,13 +21,13 @@
                             <input v-model="user.password" class="form-control" type="password">
                         </div>
                     </div>
-                    <div class="forget-password">
+                    <div class="pull-center">
                         <a href="/user/seek-password">忘记密码</a>
                     </div>
                 </form>
             </div>
-            <div class="panel-footer clearfix">
-                <button @click="signin" class="btn btn-primary pull-right">
+            <div class="panel-footer pull-center">
+                <button @click="signin" class="btn btn-primary">
                     登陆
                 </button>
             </div>
@@ -90,13 +90,7 @@ export default {
 </script>
 
 <style scoped>
-.sign-up{
-    margin-top: 20px;
-}
-.forget-password{
-    text-align: center;
-}
-a {
-    color: #42b983;
-}
+    a {
+        color: #42b983;
+    }
 </style>
