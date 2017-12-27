@@ -26,7 +26,6 @@ module.exports = async (req, res) => {
 				}
 			})
 		});
-		console.log(topic);
 		res.json({
 			errorcode: 0,
 			user,

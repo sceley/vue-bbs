@@ -1,7 +1,10 @@
 <template>
 	<div>
+		<p v-if="reply_status" class="bg-danger">
+			{{ reply_status }}
+		</p>
 		<div class="clearfix">
-			<span @click="showModel" class="pull-right glyphicon glyphicon-edit"></span>
+			<span @click="showModel" class="btn-showModel pull-right glyphicon glyphicon-share-alt"></span>
 		</div>
 		<div v-if="show">
 			<div class="form-group">
@@ -18,10 +21,11 @@
 		data () {
 			return {
 				show: false,
-				content: ''
+				content: '@'+this.replyer+' ',
+				reply_status: ''
 			}
 		},
-		props: ['topic_id'],
+		props: ['topic_id', 'replyer'],
 		methods: {
 			do_comment () {
 			    let pattern = /^@(\w+)\s{1}/;
@@ -48,8 +52,14 @@
 			            return res.json();
 			        }
 			    }).then(json => {
-			    	location.reload();
-			        console.log(json);
+			    	if (!json.errorcode) {
+			    		location.reload();
+			    	} else if (json.errorcode == 333) {
+			    		localStorage.token = '';
+			    		location.href = '/user/signin';
+			    	} else {
+			    		this.reply_status = json.msg;
+			    	}
 			    });
 			},
 			showModel () {
@@ -60,5 +70,10 @@
 </script>
 
 <style>
-	
+	.btn-showModel {
+		transform: rotate(180deg);
+		font-size: 18px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
 </style>

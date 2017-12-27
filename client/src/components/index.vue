@@ -4,19 +4,29 @@
             <div class="panel-heading heading">
                 <ul class="nav nav-pills">
                     <li>
-                        <a v-bind:class="{tab: tab=='all'}" href="/?tab=all">全部</a>
+                        <a :class="{tab: tab=='all'}" href="/?tab=all">
+                            全部
+                        </a>
                     </li>
                     <li>
-                        <a v-bind:class="{tab: tab=='technology'}" href="/?tab=technology">技术</a>
+                        <a :class="{tab: tab=='technology'}" href="/?tab=technology">
+                            技术
+                        </a>
                     </li>
                     <li>
-                        <a v-bind:class="{tab: tab=='entertainment'}" href="/?tab=entertainment">娱乐</a>
+                        <a :class="{tab: tab=='entertainment'}" href="/?tab=entertainment">
+                            娱乐
+                        </a>
                     </li>
                     <li>
-                        <a v-bind:class="{tab: tab=='life'}" href="/?tab=life">生活</a>
+                        <a :class="{tab: tab=='life'}" href="/?tab=life">
+                            生活
+                        </a>
                     </li>
                     <li>
-                        <a v-bind:class="{tab: tab=='interest'}" href="/?tab=interest">兴趣</a>
+                        <a :class="{tab: tab=='interest'}" href="/?tab=interest">
+                            兴趣
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -26,15 +36,15 @@
                     <li v-for="item in topic">
                         <div class="row">
                             <div class="col-xs-3 col-custom">
-                                <a v-bind:href="'/user/' + item.author_id.userName">
-                                    <img class="img-thumbnail" v-bind:src="item.author_id.gravatar">
+                                <a :href="'/user/' + item.author_id.userName">
+                                    <img class="img-thumbnail" :src="item.author_id.gravatar">
                                 </a>
                             </div>
                             <div class="col-xs-2 col-custom">
                                 <span class="topic-tab">{{ item.tab }}</span>
                             </div>
                             <div class="col-xs-7 col-custom">
-                                <a v-bind:href="'/topic/' + item._id">
+                                <a :href="'/topic/' + item._id">
                                     <div class="topic-title">
                                         {{ item.title }}
                                     </div>
@@ -49,15 +59,17 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li v-if="page > 1">
-                            <a v-bind:href="'?tab='+tab+'&page='+(page - 1)">
+                            <a :href="'?tab='+tab+'&page='+(page - 1)">
                                 <span>&laquo;</span>
                             </a>
                         </li>
                         <li v-for="item in pageselect">
-                            <a v-bind:class="{page: page == item}" v-bind:href="'?tab='+tab+'&page='+item">{{ item }}</a>
+                            <a :class="{page: page == item}" :href="'?tab='+tab+'&page='+item">
+                                {{ item }}
+                            </a>
                         </li>
                         <li v-if="page < pages">
-                            <a v-bind:href="'?tab='+tab+'&page='+(page + 1)">
+                            <a :href="'?tab='+tab+'&page='+(page + 1)">
                                 <span>&raquo;</span>
                             </a>
                         </li>
@@ -110,7 +122,7 @@
                 }
             }).then(json => {
                 if (!json.errorcode){
-                    this.pages = Math.ceil(json.count / 10);
+                    this.pages = Math.ceil(json.count / 5);
                     this.pagination();
                 } else {
                     this.topic_status = json.msg;

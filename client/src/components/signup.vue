@@ -68,11 +68,11 @@
         },
         methods: {
             validate () {
+                let pattern = /^\w+@[a-z0-9]+\.[a-z]+$/i;
                 if(!this.user.userName.trim()){
                     this.validatestatement = "用户名不能为空";
                     return 0;
                 }
-                let pattern = /^\w+@[a-z0-9]+\.[a-z]+$/i;
                 if(!pattern.test(this.user.email)){
                     this.validatestatement = "请输入合法的邮箱";
                     return 0;
@@ -85,6 +85,7 @@
                     this.validatestatement = '邮箱验证码不对';
                     return 0;
                 }
+                this.validatestatement = '';
                 return 1;
             },
             getVerifyCode () {
@@ -95,7 +96,7 @@
                 } else {
                     this.validatestatement = "";
                 }
-                this.time = 5;
+                this.time = 30;
                 let time = setInterval(() => {
                     this.time--;
                     if(this.time == 0){
@@ -118,6 +119,8 @@
                 }).then(json => {
                     if (!json.errorCode){
                         this.realVerifyCode = json.verifyCode;
+                    } else {
+                        this.validatestatement = json.msg;
                     }
                 });
             },

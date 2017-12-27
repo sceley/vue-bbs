@@ -3,5 +3,6 @@ module.exports = {
 	emailPass: 'oiwovvwtbgvnhieh',
 	mongodb: 'mongodb://localhost:27017/club',
 	host: 'localhost',
-	port: process.env.PORT || 3000
+	port: process.env.PORT || 3000,
+	env: 'development'
 };

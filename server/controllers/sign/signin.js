@@ -19,11 +19,11 @@ module.exports = async (req, res) => {
 		});
 		if (user) {
 			let result = await new Promise((resolve, reject) => {
-				bcrypt.compare(_user.password, user.password, function(err, res) {
+				bcrypt.compare(_user.password, user.password, function(err, result) {
 					if (err) {
 						reject(err);
 					} else {
-						resolve(res);
+						resolve(result);
 					}
 				});
 			});

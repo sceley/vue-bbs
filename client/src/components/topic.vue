@@ -20,27 +20,28 @@
                 <div class="comment-ceil" v-for="item in comments">
                     <div class="row">
                         <div class="col-xs-4">
-                            <img class="img-thumbnail" v-bind:src="item.author_id.gravatar">
+                            <img class="img-thumbnail" :src="item.author_id.gravatar">
                         </div>
                         <div class="col-xs-8">
                             {{ item.author_id.userName }}
                         </div>
                     </div>
                     <div style="margin-top:5px;" class="content">
-                        <a v-if="item.replyer_id" :href="'/user'+item.replyer_id.userName">
+                        <a v-if="item.replyer_id" :href="'/user/'+item.replyer_id.userName">
                             @{{ item.replyer_id.userName }}
                         </a>
                         {{ item.content }}
                     </div>
-                    <Reply :topic_id="topic._id"/>
+                    <Reply :replyer="item.author_id.userName" :topic_id="topic._id"/>
                 </div>
             </div>
             <div class="panel-heading">
                 添加评论
             </div>
+            <p v-if="topic_status" class="bg-info">{{ topic_status }}</p>
             <div class="panel-body">
                 <div class="form-group">
-                    <textarea v-model="comment_content" class="form-control" rows="5"></textarea>
+                    <textarea v-model="content" class="form-control" rows="5"></textarea>
                 </div>
                 <button @click="do_comment" class="btn btn-primary">评论</button>
             </div>
@@ -58,9 +59,10 @@
             return {
                 topic: '',
                 author: '',
-                comment_content: '',
+                content: '',
                 comments: [],
-                show: false
+                show: false,
+                topic_status: ''
             }
         },
         components: {
@@ -70,7 +72,7 @@
             do_comment () {
                 let pattern = /^@(\w+)\s{1}/;
                 let replyer;
-                let content = this.comment_content;
+                let content = this.content;
                 content.replace(pattern, (match, code) => {
                     replyer = code;
                 });
@@ -92,7 +94,14 @@
                         return res.json();
                     }
                 }).then(json => {
-                    console.log(json);
+                    if (!json.errorcode) {
+                        location.reload();
+                    } else if (json.errorcode == 333) {
+                        localStorage.token = '';
+                        this.topic_status = '请先进行登录';
+                    } else {
+                        this.topic_status = json.msg;
+                    }
                 });
             },
             showModel () {

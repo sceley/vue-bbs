@@ -74,7 +74,8 @@
         },
         created () {
             if(!localStorage.token){
-                return location.href = '/';
+                location.href = '/';
+                return 0;
             }
             fetch(`${config.server}/user/setting`, {
                 method: 'GET',
@@ -88,6 +89,11 @@
             }).then(json => {
                 if (!json.errorcode) {
                     this.user = json.user;
+                } else if (json.errorcode == 333) {
+                    localStorage.token = '';
+                    location.href = '/user/signin';
+                } else {
+                    this.userinfostatus = json.msg;
                 }
             });
         },
@@ -124,6 +130,7 @@
                         this.userinfostatus = json.msg;
                     } else if (json.errorcode == 333) {
                         localStorage.token = '';
+                        location.href = '/user/signin'
                     } else {
                         this.userinfostatus = json.msg;
                     }
@@ -147,9 +154,9 @@
                 }).then(json => {
                     if (!json.errorcode) {
                         location.reload();
-                    } else if (json.errorcode = 333) {
+                    } else if (json.errorcode == 333) {
                         localStorage.token = '';
-                        location.href = '/';
+                        location.href = '/user/signin';
                     } else {
                         this.userinfostatus = json.msg;
                     }
@@ -179,7 +186,7 @@
                         this.password = '';
                     } else if (json.errorcode == 333) {
                         localStorage.token = '';
-                        location.href = '/';
+                        location.href = '/user/signin';
                     } else {
                         this.passwordstatus = json.msg;
                     }

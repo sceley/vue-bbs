@@ -14,7 +14,6 @@ module.exports = async(req, res, next) => {
 		req.session = session;
 		next();
 	} catch (e) {
-		console.log(e);
 		res.json({
 			errorcode: 333,
 			msg: '用户没有注册'

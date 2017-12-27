@@ -16,6 +16,7 @@ module.exports = async (req, res) => {
 				}
 			});
 		});
+		_comment.author_id = user._id;
 		if (_comment.replyer) {
 			let replyer = await new Promise((resolve, reject) => {
 				User.findOne({
@@ -31,7 +32,6 @@ module.exports = async (req, res) => {
 			_comment.replyer_id = replyer.id;
 			delete _comment.replyer;
 		}
-		_comment.author_id = user._id;
 		let comment = new Comment(_comment);
 		await new Promise((resolve, reject) => {
 			comment.save(err => {
@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
 		});
 	} catch (e) {
 		res.json({
-			errorcode: 500,
+			errorcode: 555,
 			msg: '服务器错误'
 		});
 	}

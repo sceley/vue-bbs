@@ -84,9 +84,9 @@
                 }).then(json => {
                     if(!json.errorcode) {
                         location.href = '/';
-                    } else　if(json.errorcode = 333) {
+                    } else　if(json.errorcode == 333) {
                         localStorage.token = '';
-                        location.href = '/';
+                        location.href = '/user/signin';
                     } else {
                         this.public_status = json.msg;
                     }

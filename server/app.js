@@ -17,7 +17,7 @@ app.all("*", (req, res, next) => {
 	next();
 });
 
-if (app.get('env')　== 'development') {
+if (config.env　== 'development') {
 	app.use(morgan('dev'));
 }
 

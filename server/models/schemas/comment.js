@@ -9,7 +9,8 @@ const Schema = mongoose.Schema({
 	},
 	author_id: {
 		type: ObjectId,
-		ref: 'user'
+		ref: 'user',
+		required: true
 	},
 	replyer_id: {
 		type: ObjectId,
@@ -17,4 +18,5 @@ const Schema = mongoose.Schema({
 	},
 	content: String
 });
+
 module.exports = db.model('comment', Schema);

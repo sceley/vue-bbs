@@ -7,7 +7,9 @@
                 <span>忘记密码</span>
             </div>
             <div class="panel-body">
-                <p v-if="getStatus" class="bg-info">{{ getStatus }}</p>
+                <p v-if="getStatus" class="bg-info">
+                    {{ getStatus }}
+                </p>
                 <form action="">
                     <div class="form-group">
                         <div class="input-group">
@@ -20,8 +22,12 @@
                             <div class="input-group-addon">邮箱验证码</div>
                             <input v-model="verifyCode" class="form-control" type="text">
                             <div class="input-group-addon">
-                                <div v-if="time">{{ time }}s</div>
-                                <a v-if="!time" @click="getVerifyCode" href="javascript:;">获取</a>
+                                <div v-if="time">
+                                    {{ time }}s
+                                </div>
+                                <a v-if="!time" @click="getVerifyCode" href="javascript:;">
+                                    获取
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -57,9 +63,6 @@
                 time: 0
             }
         },
-        created () {
-            
-        },
         methods: {
             validate () {
                 if(!this.user.userName.trim()){
@@ -81,11 +84,11 @@
                     this.getStatus = "用户名不能为空";
                     return 0;
                 };
-                this.time = 5;
-
+                this.userName = this.user.userName;
+                this.time = 30;
                 let time = setInterval(() => {
                     this.time--;
-                    if(this.time <= 0){
+                    if(this.time == 0){
                         clearInterval(time);
                     }
                 }, 1000);

@@ -6,11 +6,11 @@ module.exports = async (req, res) => {
 		let user = await new Promise((resolve, reject) => {
 			User.findOne({
 				userName
-			}).exec((err, userInfo) => {
+			}).exec((err, user) => {
 				if (err) {
 					reject(err);
 				} else {
-					resolve(userInfo);
+					resolve(user);
 				}
 			});
 		});
@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
 		});
 	} catch (e) {
 		res.json({
-			errorcode: 500,
+			errorcode: 555,
 			msg: '服务器错误'
 		});
 	}

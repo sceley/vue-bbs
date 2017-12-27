@@ -16,7 +16,7 @@ module.exports = async email => {
 	let number = Math.floor(Math.random() * 100000);
 	await new Promise((resolve, reject) => {
 		transport.sendMail({
-			from: '1538306377@qq.com',
+			from: user,
 			to: email,
 			subject: '论坛验证码',
 			html: `覃永利论坛的验证码: ${number}，多谢支持。。。`

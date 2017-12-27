@@ -21,10 +21,11 @@ const Schema = mongoose.Schema({
 
 Schema.static('findTopic', function (query, p, callback) {
 	this.find(query).sort('-create_at')
-	.skip((p - 1) * 10).limit(10)
+	.skip((p - 1) * 5).limit(5)
 	.populate({
 		path: 'author_id',
 		select: 'gravatar userName'
 	}).exec(callback);
 });
+
 module.exports = db.model('topic', Schema);

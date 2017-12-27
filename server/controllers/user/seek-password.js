@@ -26,7 +26,6 @@ module.exports = async (req, res) => {
 					resolve();
 				}
 			});
-			
 		});
 		res.json({
 			errorcode: 0,
